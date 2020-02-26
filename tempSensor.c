@@ -22,22 +22,12 @@
 
 
 void delayMs(int n);
-
-//int main(void)
 void tempSensor(int *clientfd)
 {
     int temperature;
     char buffer[18];
     char buffert[1024];
-    //int clientfd;
-
-
-
-
-    /* initialize UART0 for output */
-
-
-    /* enable clocks */
+ 
     SYSCTL_RCGCGPIO_R |= 0x10;      /* enable clock to GPIO_PORTE */
     SYSCTL_RCGCADC_R |= 1;          /* enable clock to ADC0 */
 
@@ -59,15 +49,12 @@ void tempSensor(int *clientfd)
     GPIOPinTypeGPIOOutput(GPIO_PORTN_BASE, GPIO_PIN_0|GPIO_PIN_1);
     GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_0);
 
- //   while(1) {   try for IOT
         ADC0_PSSI_R |= 8;           /* start a conversion sequence 3 */
         while((ADC0_RIS_R & 0x08) == 0)
             ;                       /* wait for conversion to complete */
         temperature = ((ADC0_SSFIFO3_R * 330) / 4096);
         ADC0_ISC_R = 8;             /* clear completion flag  */
         sprintf(buffer, "\r\nTemp = %d", temperature);
-        //System_printf("\r\nTemp = %dF", temperature);
-        //System_flush();
         GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0, GPIO_PIN_0);
         GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
 
@@ -84,20 +71,7 @@ void tempSensor(int *clientfd)
         }
 
 
-        //UART0_puts(buffer); removed for IOT
-      //  delayMs(1000);
-
-        //char result = (char)temperature;
-        //memset(buffert,0,sizeof(buffert));
-
-
-        //sprintf(buffert,result);
-       // sprintf(buffert, result);
-       // sendData(buffert,clientfd);
         sendData(buffer,clientfd);
-        //System_printf("Temperature is ","%d",temperature);
-        //System_flush();
-  //  } Try for IOT
-        //return();
+
 }
 
