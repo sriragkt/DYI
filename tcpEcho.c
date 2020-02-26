@@ -90,9 +90,8 @@ Void tcpWorker(UArg arg0, UArg arg1)
     int  bytesSent;
     char buffer[TCPPACKETSIZE];
     tempSensor(&clientfd);
-    //decodeHeaders((char*)mainFrame,&clientfd);
     System_printf("tcpWorker: start clientfd = 0x%x\n", clientfd);
-                                                                         //try
+                                                                         
     while ((bytesRcvd = recv(clientfd, buffer, TCPPACKETSIZE, 0)) > 0) {
         bytesSent = send(clientfd, buffer, bytesRcvd, 0);
         if (bytesSent < 0 || bytesSent != bytesRcvd) {
@@ -193,7 +192,7 @@ int main(void)
     Board_initGeneral();
     Board_initGPIO();
     Board_initEMAC();
-   // tempSensor();
+  
 
     System_printf("Starting the TCP Echo example\nSystem provider is set to "
                   "SysMin. Halt the target to view any SysMin contents in"
